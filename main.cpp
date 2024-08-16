@@ -10,7 +10,7 @@
 #include <ctime>
 
 void drawEqualizer(int height, int width, int pausecount) {
-    int bars = 10;  //number of equalizer bars
+    int bars = 40;  //number of equalizer bars
     int barWidth = width / bars;
 
     std::vector<int> barHeights(bars);
@@ -50,13 +50,13 @@ void updateDisplay(const std::string &trackName, const std::string &appname, Mix
     while (Mix_PlayingMusic()) {
         clear();
 
-        mvprintw(height / 5 - 2, (width - appname.size()) / 2, "listening on %s", appname.c_str());
-        mvprintw(height / 4 - 2, (width - trackName.size()) / 2, "Playing: %s", trackName.c_str());
+        mvprintw(height / 5 - 2, (width - appname.size()) / 2, "%s", appname.c_str());
+        mvprintw(height / 4 - 2, (width - trackName.size()-9) / 2, "Playing: %s", trackName.c_str());
 
         //display equalizer below the progress bar, with dynamic movement
         drawEqualizer(height, width, pausecount);
 
-        mvprintw(height - 2, (width - 20) / 2, "Press 'p' to pause, Press 'q' to quit");
+        mvprintw(height - 2, (width - 40) / 2, "Press 'p' to pause, Press 'q' to quit");
 
         refresh();
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     }
 
     std::string trackName = argv[1];
-    std::string appname = "simple terminal music player (stmp)";
+    std::string appname = "listening on simple terminal music player (stmp)";
 
     //initialize SDL
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
